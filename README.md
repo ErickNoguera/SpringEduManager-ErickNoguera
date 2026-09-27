@@ -24,17 +24,17 @@ Permite gestionar estudiantes y cursos mediante una interfaz web (Spring MVC + T
 - API REST con operaciones CRUD (Create, Read, Update, Delete) completas para estudiantes y cursos, expuesta en `/api/estudiantes` y `/api/cursos`
 
 ## Estructura del proyecto
+```
+src/main/java/com/erick/springedumanagererick/
+├── config/ -> Configuracion de Spring Security (SecurityConfig)
+├── controller/ -> Controladores MVC (EstudianteController, CursoController) y REST (EstudianteRestController, CursoRestController)
+├── model/ -> Entidades JPA (Estudiante, Curso)
+└── repository/ -> Repositorios Spring Data JPA (EstudianteRepository, CursoRepository)
 
-    src/main/java/com/erick/springedumanagererick/
-    ├── config/       → Configuración de Spring Security (SecurityConfig)
-    ├── controller/   → Controladores MVC (EstudianteController, CursoController) y REST (EstudianteRestController, CursoRestController)
-    ├── model/        → Entidades JPA (Estudiante, Curso)
-    └── repository/   → Repositorios Spring Data JPA (EstudianteRepository, CursoRepository)
-
-    src/main/resources/
-    ├── templates/    → Vistas Thymeleaf (estudiantes.html, estudiante-form.html, cursos.html, curso-form.html)
-    └── application.properties → Configuración de conexión a MySQL
-
+src/main/resources/
+├── templates/ -> Vistas Thymeleaf (estudiantes.html, estudiante-form.html, cursos.html, curso-form.html)
+└── application.properties -> Configuracion de conexion a MySQL
+```
 ## Base de datos
 
 Nombre: `db_springedumanager`
@@ -43,14 +43,16 @@ Las tablas (`estudiante`, `curso`) se generan automáticamente al arrancar la ap
 
 ## Usuarios de prueba
 
-| Usuario | Contraseña | Rol   | Permisos                              |
-|---------|-----------|-------|----------------------------------------|
-| admin   | admin1234 | ADMIN | Crear estudiantes y cursos, ver listas |
-| erick   | erick1234 | USER  | Solo ver listas (sin crear)            |
+| Usuario | Contraseña | Rol   | Permisos                                 |
+| ------- | ---------- | ----- | ---------------------------------------- |
+| admin   | admin1234  | ADMIN | Crear estudiantes y cursos, ver listas   |
+| erick   | erick1234  | USER  | Solo ver listas (sin crear)              |
+
 
 ## Cómo ejecutar el proyecto
 
 ### Requisitos previos
+
 - JDK 21 o superior
 - MySQL Server
 - Eclipse IDE (o cualquier IDE compatible con Maven)
@@ -63,8 +65,9 @@ git clone https://github.com/ErickNoguera/SpringEduManager-ErickNoguera.git
 
 
 2. Crear la base de datos en MySQL:
+
 ```sql
-   CREATE DATABASE IF NOT EXISTS db_springedumanager;
+CREATE DATABASE IF NOT EXISTS db_springedumanager;
 ```
 
 3. Ajustar las credenciales de conexión en `src/main/resources/application.properties` si es necesario (usuario/contraseña de tu MySQL local).
@@ -89,9 +92,11 @@ Los endpoints están disponibles sin autenticación para facilitar las pruebas c
 
 ## Ciclo de vida Maven verificado
 
-- ./mvnw clean
-- ./mvnw install
-- ./mvnw package
+./mvnw clean
+
+./mvnw install
+
+./mvnw package
 
 
 ## Autor
