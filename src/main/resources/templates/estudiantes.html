@@ -9,6 +9,9 @@
     <h2>Lista de Estudiantes</h2>
 
     <a th:href="@{/estudiantes/nuevo}">Agregar Estudiante</a>
+    <form th:action="@{/logout}" method="POST" style="display:inline;">
+    <button type="submit">Cerrar sesión</button>
+</form>
 
     <table border="1">
         <tr>
