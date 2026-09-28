@@ -15,6 +15,7 @@ Permite gestionar estudiantes y cursos mediante una interfaz web (Spring MVC + T
 - Maven como gestor de dependencias
 - Bootstrap 5 (estructura y formularios) con CSS propio para la identidad visual
 - Tipografía Bricolage Grotesque (Google Fonts)
+- JWT (JSON Web Token) con la librería jjwt, para proteger la API REST de forma stateless
 
 ## Funcionalidades
 
@@ -26,6 +27,7 @@ Permite gestionar estudiantes y cursos mediante una interfaz web (Spring MVC + T
   - USER: solo puede consultar las listas (si intenta crear, ve una página de "sin permiso")
 - Diseño propio inspirado en la impresión risográfica: tintas fluorescentes superpuestas, botones con doble capa de color y marcatextos en los enlaces
 - API REST con operaciones CRUD (Create, Read, Update, Delete) completas para estudiantes y cursos, expuesta en /api/estudiantes y /api/cursos
+- API REST protegida con JWT: se requiere un token válido para consultar o modificar datos, salvo el login
 
 ## Estructura del proyecto
 ```
@@ -85,17 +87,47 @@ CREATE DATABASE IF NOT EXISTS db_springedumanager;
 
 6. Acceder desde el navegador a: `http://localhost:8080/estudiantes` (Spring Security pedirá login).
 
-### Probar la API REST
+### Autenticación de la API con JWT
 
-Los endpoints están disponibles sin autenticación ni token CSRF para facilitar las pruebas con Postman o similar:
+Los endpoints de /api/estudiantes y /api/cursos requieren un token JWT (JSON Web Token) en cada petición, salvo el propio login.
 
-- `GET /api/estudiantes` — listar todos los estudiantes
-- `GET /api/estudiantes/{id}` — buscar un estudiante por ID
-- `POST /api/estudiantes` — crear un estudiante (cuerpo JSON)
-- `PUT /api/estudiantes/{id}` — actualizar un estudiante
-- `DELETE /api/estudiantes/{id}` — eliminar un estudiante
+Paso 1: pedir el token
 
-(Los mismos 5 endpoints existen para `/api/cursos`)
+    POST /api/auth/login
+
+    Cuerpo (JSON):
+    {
+        "username": "admin",
+        "password": "admin1234"
+    }
+
+    Respuesta:
+    {
+        "token": "eyJhbGciOiJIUzI1NiJ9..."
+    }
+
+Paso 2: usar el token
+
+En cada petición a /api/estudiantes o /api/cursos, agregar el header:
+
+    Authorization: Bearer <token>
+
+Sin este header (o con un token inválido o vencido), la API responde 401 Unauthorized con:
+
+    { "error": "Token invalido o ausente" }
+
+El token expira 1 hora después de emitido.
+
+### Endpoints disponibles
+
+- POST /api/auth/login — obtener el token (sin autenticación)
+- GET /api/estudiantes — listar todos los estudiantes
+- GET /api/estudiantes/{id} — buscar un estudiante por ID
+- POST /api/estudiantes — crear un estudiante (cuerpo JSON)
+- PUT /api/estudiantes/{id} — actualizar un estudiante
+- DELETE /api/estudiantes/{id} — eliminar un estudiante
+
+(Los mismos 5 endpoints de estudiantes existen para /api/cursos)
 
 ## Ciclo de vida Maven verificado
 
