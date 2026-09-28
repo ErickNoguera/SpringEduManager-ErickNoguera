@@ -36,17 +36,23 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+            .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**"))
             .authorizeHttpRequests(auth -> auth
-            	.requestMatchers("/api/**").permitAll()
+                .requestMatchers("/api/**").permitAll()
+                .requestMatchers("/css/**", "/login").permitAll()
                 .requestMatchers("/cursos/nuevo", "/cursos/guardar").hasRole("ADMIN")
                 .requestMatchers("/estudiantes/nuevo", "/estudiantes/guardar").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
+                .loginPage("/login")
                 .defaultSuccessUrl("/estudiantes", true)
                 .permitAll()
             )
-            .logout(logout -> logout.permitAll());
+            .logout(logout -> logout
+                .logoutSuccessUrl("/login?logout")
+                .permitAll()
+            );
 
         return http.build();
     }

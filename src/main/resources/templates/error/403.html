@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sin permiso | SpringEduManager</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&display=swap" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+<nav class="barra">
+    <div class="container d-flex flex-wrap align-items-center justify-content-between gap-3">
+        <a class="marca" th:href="@{/estudiantes}">SpringEduManager</a>
+        <div class="d-flex align-items-center gap-4">
+            <a class="enlace" th:href="@{/estudiantes}">Estudiantes</a>
+            <a class="enlace" th:href="@{/cursos}">Cursos</a>
+            <form th:action="@{/logout}" method="post" class="m-0">
+                <button type="submit" class="sello sello-tenue sello-chico">Cerrar sesión</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<main class="container pb-5">
+    <header class="encabezado">
+        <div class="discos discos-esquina" aria-hidden="true"></div>
+        <div class="texto">
+            <h1>No tienes permiso para hacer esto</h1>
+            <p class="sub">Agregar estudiantes y cursos es solo para el rol ADMIN. Puedes seguir consultando las listas.</p>
+        </div>
+    </header>
+    <a class="sello" th:href="@{/estudiantes}">Volver a estudiantes</a>
+</main>
+</body>
+</html>

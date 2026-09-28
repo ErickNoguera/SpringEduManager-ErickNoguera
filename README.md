@@ -13,27 +13,33 @@ Permite gestionar estudiantes y cursos mediante una interfaz web (Spring MVC + T
 - Thymeleaf (motor de plantillas)
 - MySQL como base de datos
 - Maven como gestor de dependencias
+- Bootstrap 5 (estructura y formularios) con CSS propio para la identidad visual
+- Tipografía Bricolage Grotesque (Google Fonts)
 
 ## Funcionalidades
 
 - Gestión de estudiantes: listar, crear
 - Gestión de cursos: listar, crear
+- Formulario de login propio y cierre de sesión desde la barra de navegación
 - Autenticación con 2 roles: ADMIN y USER
   - ADMIN: puede crear estudiantes y cursos
-  - USER: solo puede consultar las listas
-- API REST con operaciones CRUD (Create, Read, Update, Delete) completas para estudiantes y cursos, expuesta en `/api/estudiantes` y `/api/cursos`
+  - USER: solo puede consultar las listas (si intenta crear, ve una página de "sin permiso")
+- Diseño propio inspirado en la impresión risográfica: tintas fluorescentes superpuestas, botones con doble capa de color y marcatextos en los enlaces
+- API REST con operaciones CRUD (Create, Read, Update, Delete) completas para estudiantes y cursos, expuesta en /api/estudiantes y /api/cursos
 
 ## Estructura del proyecto
 ```
-src/main/java/com/erick/springedumanagererick/
-├── config/ -> Configuracion de Spring Security (SecurityConfig)
-├── controller/ -> Controladores MVC (EstudianteController, CursoController) y REST (EstudianteRestController, CursoRestController)
-├── model/ -> Entidades JPA (Estudiante, Curso)
-└── repository/ -> Repositorios Spring Data JPA (EstudianteRepository, CursoRepository)
+    src/main/java/com/erick/springedumanagererick/
+    ├── config/       -> Configuracion de Spring Security (SecurityConfig)
+    ├── controller/   -> Controladores MVC, de login y REST
+    ├── model/        -> Entidades JPA (Estudiante, Curso)
+    └── repository/   -> Repositorios Spring Data JPA
 
-src/main/resources/
-├── templates/ -> Vistas Thymeleaf (estudiantes.html, estudiante-form.html, cursos.html, curso-form.html)
-└── application.properties -> Configuracion de conexion a MySQL
+    src/main/resources/
+    ├── static/css/   -> Estilos propios (style.css)
+    ├── templates/    -> Vistas Thymeleaf (login, estudiantes, cursos y sus formularios)
+    ├── templates/error/ -> Pagina personalizada para el error 403
+    └── application.properties -> Configuracion de conexion a MySQL
 ```
 ## Base de datos
 
@@ -56,6 +62,7 @@ Las tablas (`estudiante`, `curso`) se generan automáticamente al arrancar la ap
 - JDK 21 o superior
 - MySQL Server
 - Eclipse IDE (o cualquier IDE compatible con Maven)
+- Conexión a internet (Bootstrap y la tipografía se cargan desde un CDN)
 
 ### Pasos
 
@@ -80,7 +87,7 @@ CREATE DATABASE IF NOT EXISTS db_springedumanager;
 
 ### Probar la API REST
 
-Los endpoints están disponibles sin autenticación para facilitar las pruebas con Postman o similar:
+Los endpoints están disponibles sin autenticación ni token CSRF para facilitar las pruebas con Postman o similar:
 
 - `GET /api/estudiantes` — listar todos los estudiantes
 - `GET /api/estudiantes/{id}` — buscar un estudiante por ID
